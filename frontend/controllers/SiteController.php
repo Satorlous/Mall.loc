@@ -1,10 +1,13 @@
 <?php
 namespace frontend\controllers;
 
+use app\models\Good;
+use cyneek\yii2\blade\BladeBehavior;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\Pagination;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -14,6 +17,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -48,6 +52,9 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
+            'blade' => [
+                'class' => BladeBehavior::className()
+            ],
         ];
     }
 
@@ -74,7 +81,23 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $query = Good::find();
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 6, 'forcePageParam' => false, 'pageSizeParam' => false]);
+        $goods = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        return $this->render('index', [
+            'goods' => $goods,
+            'pages' => $pages
+        ]);
+    }
+
+    public function actionProducts($id = null)
+    {
+        $product = Good::findOne($id);
+        return $this->render('product', [
+            'product' => $product,
+        ]);
     }
 
     /**
@@ -153,11 +176,16 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Регистрация успешно завершена.');
-            return $this->goHome();
+        if ($model->load(Yii::$app->request->post()))
+        {
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if($model->signup())
+            {
+                $model->upload();
+                Yii::$app->session->setFlash('success', 'Регистрация успешно завершена.');
+                return $this->goHome();
+            }
         }
-
         return $this->render('signup', [
             'model' => $model,
         ]);

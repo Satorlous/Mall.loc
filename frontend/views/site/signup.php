@@ -4,6 +4,7 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\SignupForm */
 
+
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
@@ -17,6 +18,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
+                <?= $form->field($model, 'fullname')->label('ФИО')?>
+
                 <?= $form->field($model, 'username')->label('Никнейм')?>
 
                 <?= $form->field($model, 'email')->label('Электронный адрес')?>
@@ -25,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password_repeat')->label('Подтверждение пароля')->passwordInput() ?>
 
+                <?= $form->field($model, 'image')->fileInput()->label('Изображение профиля')?>
                 <div class="form-group">
                     <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>

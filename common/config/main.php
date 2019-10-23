@@ -10,5 +10,14 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'view' => [
+            'class' => 'yii\web\View',
+            'renderers' => [
+                'blade' => [
+                    'class' => '\cyneek\yii2\blade\ViewRenderer',
+                    'cachePath' => '@runtime/blade_cache',
+                ],
+            ],
+        ],
     ],
 ];
