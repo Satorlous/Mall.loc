@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace frontend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
@@ -16,6 +16,7 @@ use yii\db\ActiveRecord;
  */
 class Good extends ActiveRecord
 {
+    public $quantity = 1;
     /**
      * {@inheritdoc}
      */
@@ -47,5 +48,10 @@ class Good extends ActiveRecord
             'price' => 'Price',
             'image' => 'Image',
         ];
+    }
+
+    public function getCartItems()
+    {
+        return $this->hasMany(CartItems::className(), ['product_id'=> 'id']);
     }
 }

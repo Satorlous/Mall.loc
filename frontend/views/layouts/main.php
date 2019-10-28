@@ -52,6 +52,7 @@ AppAsset::register($this);
                                 </ul>
                             </li>';
         }
+        $menuItems[] = ['label' => 'Корзина', 'url' => ['/cart/index']];
 
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')

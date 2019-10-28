@@ -26,7 +26,19 @@
     margin-top: 30px;
 }
 
+.good-item__btn-delete {
+    margin-top: 30px;
+}
+
 .good-item__span {
     font-weight: bold;
     color: black;
+}
+
+.good-item__status-open {
+    color: green;
+}
+
+.good-item__status-closed {
+    color: red;
 }

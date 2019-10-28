@@ -1,13 +1,15 @@
 <?php
 namespace frontend\controllers;
 
-use app\models\Good;
+use frontend\models\CartItems;
+use frontend\models\Good;
 use cyneek\yii2\blade\BladeBehavior;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\data\Pagination;
+use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -81,7 +83,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $query = Good::find();
+        $query = Good::find()
+        ->where(['status' => true])
+        ->orderBy('id');
         $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 6, 'forcePageParam' => false, 'pageSizeParam' => false]);
         $goods = $query->offset($pages->offset)
             ->limit($pages->limit)
@@ -90,6 +94,13 @@ class SiteController extends Controller
             'goods' => $goods,
             'pages' => $pages
         ]);
+    }
+
+    public function actionTest()
+    {
+        $item = CartItems::find()->where(['product_id' => 3])->one();
+        $s = $item->getProduct()->one();
+        var_export($s);
     }
 
     public function actionProducts($id = null)

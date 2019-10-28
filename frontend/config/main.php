@@ -48,6 +48,19 @@ return [
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],
         ],
+
+        'cart' => [
+            'class' => 'devanych\cart\Cart',
+            'storageClass' => 'devanych\cart\storage\DbSessionStorage',
+            'calculatorClass' => 'devanych\cart\calculators\SimpleCalculator',
+            'params' => [
+                'key' => 'cart',
+                'expire' => 4*604800, //4 недели
+                'productClass' => 'frontend\models\Good',
+                'productFieldId' => 'id',
+                'productFieldPrice' => 'price',
+            ],
+        ],
     ],
     'params' => $params,
 ];
