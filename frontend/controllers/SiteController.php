@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use frontend\models\CartItems;
+use frontend\models\Catalog;
 use frontend\models\Good;
 use cyneek\yii2\blade\BladeBehavior;
 use frontend\models\ResendVerificationEmailForm;
@@ -83,15 +84,14 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $query = Good::find()
-        ->where(['status' => true])
+        $query = Catalog::find()
         ->orderBy('id');
         $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 6, 'forcePageParam' => false, 'pageSizeParam' => false]);
-        $goods = $query->offset($pages->offset)
+        $catalog = $query->offset($pages->offset)
             ->limit($pages->limit)
             ->all();
         return $this->render('index', [
-            'goods' => $goods,
+            'catalog' => $catalog,
             'pages' => $pages
         ]);
     }

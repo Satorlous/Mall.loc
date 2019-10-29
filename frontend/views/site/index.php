@@ -2,7 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $pages yii\data\Pagination */
-/* @var $goods frontend\models\Good */
+/* @var $catalog frontend\models\Catalog */
 
 $this->title = 'СП-Магазин';
 
@@ -15,17 +15,17 @@ use yii\widgets\LinkPager;?>
             'pagination' => $pages,
         ]); ?>
         <ul id="goods" class="list-unstyled">
-            <? foreach ($goods as $good): ?>
+            <? foreach ($catalog as $item): ?>
             <li class="good-item row">
                 <div class="col-md-4">
-                    <img class="good-item__img" alt="" src="<?=Yii::getAlias('@web/img/').$good->image?>">
+                    <img class="good-item__img" alt="" src="<?=Yii::getAlias('@web/img/').$item->good->image?>">
                 </div>
                 <div class="col-md-8">
-                    <div class="good-item__name"><?=$good->name?></div>
-                    <div class="good-item__description"><?=$good->description?></div>
-                    <div class="good-item__price"><?=$good->price?> руб.</div>
+                    <div class="good-item__name"><?=$item->good->name?></div>
+                    <div class="good-item__description"><?=$item->good->description?></div>
+                    <div class="good-item__price"><?=$item->good->price?> руб.</div>
                     <div style="margin-top: 5px">Статус:
-                        <? if($good->status):?>
+                        <? if($item->status):?>
                             <span class="good-item__status-open">ОТКРЫТА
                         <? else:?>
                             <span class="good-item__status-closed">ЗАКРЫТА
@@ -33,13 +33,13 @@ use yii\widgets\LinkPager;?>
                         </span>
                     </div>
                     <? if(!Yii::$app->user->isGuest && !Yii::$app->user->identity->admin):?>
-                        <?if($good->getCartItems()->count() == 0):?>
-                            <button class="good-item__btn-add btn btn-success" data-id="<?=$good->id?>" id="prod-<?=$good->id?>" onclick="AddItem(<?=$good->id?>)">Добавить в корзину</button>
-                        <? elseif($good->getCartItems()->count() > 0):?>
-                            <button class="good-item__btn-delete btn btn-danger" data-id="<?=$good->id?>" id="prod-<?=$good->id?>" onclick="RemoveItem(<?=$good->id?>)">Удалить из корзины</button>
+                        <?if($item->good->getCartItems()->count() == 0):?>
+                            <button class="good-item__btn-add btn btn-success" data-id="<?=$item->good->id?>" id="prod-<?=$item->good->id?>" onclick="AddItem(<?=$item->good->id?>)">Добавить в корзину</button>
+                        <? elseif($item->good->getCartItems()->count() > 0):?>
+                            <button class="good-item__btn-delete btn btn-danger" data-id="<?=$item->good->id?>" id="prod-<?=$item->good->id?>" onclick="RemoveItem(<?=$item->good->id?>)">Удалить из корзины</button>
                         <? endif;?>
                     <? endif;?>
-                    <a href="<?= Url::toRoute(['site/products', 'id' => $good->id]) ?>"><button class="btn btn-info" style="margin-top: 30px;">Посмотреть</button></a>
+                    <a href="<?= Url::toRoute(['site/products', 'id' => $item->good->id]) ?>"><button class="btn btn-info" style="margin-top: 30px;">Посмотреть</button></a>
 
                 </div>
             </li>
