@@ -50,8 +50,13 @@ class Good extends ActiveRecord
         ];
     }
 
-    public function getCartItems()
+    public function getCartItem()
     {
-        return $this->hasMany(CartItems::className(), ['product_id'=> 'id']);
+        return $this->hasOne(CartItems::class, ['product_id'=> 'id'])->where(['user_id' => Yii::$app->user->id]);
+    }
+
+    public function getCatalogItem()
+    {
+        return $this->hasOne(Catalog::class, ['good_id'=> 'id']);
     }
 }

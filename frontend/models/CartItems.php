@@ -10,6 +10,7 @@ use Yii;
  * @property int $user_id
  * @property int $product_id
  * @property int $quantity
+ * @property bool $ordered
  */
 class CartItems extends \yii\db\ActiveRecord
 {
@@ -30,6 +31,8 @@ class CartItems extends \yii\db\ActiveRecord
             [['user_id', 'product_id', 'quantity'], 'required'],
             [['user_id', 'product_id', 'quantity'], 'default', 'value' => null],
             [['user_id', 'product_id', 'quantity'], 'integer'],
+            [['ordered'], 'boolean'],
+            [['ordered'], 'default', 'value' => true],
             [['user_id', 'product_id'], 'unique', 'targetAttribute' => ['user_id', 'product_id']],
         ];
     }
@@ -43,11 +46,7 @@ class CartItems extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
             'product_id' => 'Product ID',
             'quantity' => 'Quantity',
+            'ordered' => 'Ordered',
         ];
-    }
-
-    public function getProduct()
-    {
-        return $this->hasOne(Good::className(), ['id' => 'product_id']);
     }
 }

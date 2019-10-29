@@ -105,7 +105,7 @@ class SiteController extends Controller
 
     public function actionProducts($id = null)
     {
-        $product = Good::findOne($id);
+        $product = Catalog::find()->where(['good_id' => $id])->one();
         return $this->render('product', [
             'product' => $product,
         ]);

@@ -7,6 +7,10 @@
     border-radius: 3px;
 }
 
+.good-item__img{
+    width: 300px;
+}
+
 .good-item__name {
     padding-top: 30px;
     color: steelblue;
@@ -41,4 +45,8 @@
 
 .good-item__status-closed {
     color: red;
+}
+
+.cart-table tbody td{
+    vertical-align: middle;!important;
 }

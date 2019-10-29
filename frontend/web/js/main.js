@@ -1,8 +1,9 @@
 function AddItem(id) {
+    let qty = $('#count-' + id).val();
     $.ajax({
         url: '/cart/add',
         type: 'POST',
-        data: {id: id},
+        data: {id: id, qty:qty},
         success: function () {
             $fcname = "RemoveItem(" + id + ")";
             $('#prod-' + id)

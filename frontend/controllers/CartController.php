@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use frontend\models\CartItems;
+use frontend\models\Catalog;
 use frontend\models\Good;
 use Yii;
 use yii\helpers\Html;
@@ -28,7 +30,7 @@ class CartController extends \yii\web\Controller
 
     public function actionTest()
     {
-        return "123";
+
     }
     public function actionAdd($id = null, $qty = 1)
     {
@@ -36,12 +38,12 @@ class CartController extends \yii\web\Controller
             if (Yii::$app->request->isAjax)
             {
                 $id = Yii::$app->request->post('id');
+                $qty = Yii::$app->request->post('qty');
             }
             $product = $this->getProduct($id);
-            $quantity = $this->getQuantity($qty, $product->quantity);
             if ($item = $this->cart->getItem($product->id)) {
             } else {
-                $this->cart->add($product, $quantity);
+                $this->cart->add($product, $qty);
             }
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
@@ -58,9 +60,8 @@ class CartController extends \yii\web\Controller
     {
         try {
             $product = $this->getProduct($id);
-            $quantity = $this->getQuantity($qty, $product->quantity);
             if ($item = $this->cart->getItem($product->id)) {
-                $this->cart->change($item->getId(), $quantity);
+                $this->cart->change($item->getId(), $qty);
             }
         } catch (\DomainException $e) {
             Yii::$app->errorHandler->logException($e);
@@ -93,6 +94,17 @@ class CartController extends \yii\web\Controller
     {
         $this->cart->clear();
         return $this->redirect(['index']);
+    }
+
+    public function actionOrder($id, $qty)
+    {
+        $catalog_item = Catalog::findOne(['good_id' => $id]);
+        $catalog_item->current_count+= $qty;
+        $catalog_item->save();
+        $cart_item = CartItems::findOne(['product_id' => $id, 'user_id' => Yii::$app->getUser()->id]);
+        $cart_item->ordered = true;
+        $cart_item->save();
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
     }
 
     private function getProduct($id)
