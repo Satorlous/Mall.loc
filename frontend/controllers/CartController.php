@@ -2,10 +2,11 @@
 
 namespace frontend\controllers;
 
-use frontend\models\CartItems;
+use frontend\models\CartItem;
 use frontend\models\Catalog;
 use frontend\models\Good;
 use Yii;
+use yii\filters\AccessControl;
 use yii\helpers\Html;
 
 class CartController extends \yii\web\Controller
@@ -14,6 +15,30 @@ class CartController extends \yii\web\Controller
      * @var \devanych\cart\Cart $cart
      */
     private $cart;
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            return !Yii::$app->user->identity->admin;
+                        },
+                    ],
+                ],
+                'denyCallback' => function($rule, $action) {
+                    if(Yii::$app->user->identity->admin){
+                        $this->redirect('/admin/index');
+                    }
+                },
+            ],
+        ];
+    }
 
     public function __construct($id, $module, $config = [])
     {
@@ -28,10 +53,6 @@ class CartController extends \yii\web\Controller
         ]);
     }
 
-    public function actionTest()
-    {
-
-    }
     public function actionAdd($id = null, $qty = 1)
     {
         try {
@@ -98,10 +119,10 @@ class CartController extends \yii\web\Controller
 
     public function actionOrder($id, $qty)
     {
-        $catalog_item = Catalog::findOne(['good_id' => $id]);
+        $catalog_item = Catalog::findOne($id);
         $catalog_item->current_count+= $qty;
         $catalog_item->save();
-        $cart_item = CartItems::findOne(['product_id' => $id, 'user_id' => Yii::$app->getUser()->id]);
+        $cart_item = CartItem::findOne(['product_id' => $id, 'user_id' => Yii::$app->getUser()->id]);
         $cart_item->ordered = true;
         $cart_item->save();
         return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
@@ -109,24 +130,9 @@ class CartController extends \yii\web\Controller
 
     private function getProduct($id)
     {
-        if (($product = Good::findOne((int)$id)) !== null) {
+        if (($product = Catalog::findOne((int)$id)) !== null) {
             return $product;
         }
         throw new \DomainException('Товар не найден');
-    }
-
-    /**
-     * @param integer $qty
-     * @param integer $maxQty
-     * @return integer
-     * @throws \DomainException if the product cannot be found
-     */
-    private function getQuantity($qty, $maxQty)
-    {
-        $quantity = (int)$qty > 0 ? (int)$qty : 1;
-        if ($quantity > $maxQty) {
-            throw new \DomainException('Товара в наличии всего ' . Html::encode($maxQty) . ' шт.');
-        }
-        return $quantity;
     }
 }

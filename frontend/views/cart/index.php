@@ -20,21 +20,21 @@ use yii\helpers\Url;
             </thead>
             <tbody>
             <?php foreach($cartItems as $item): ?>
-            <? $item_cat = $item->getProduct()->catalogItem; ?>
+            <? $item_cat = $item->getProduct(); ?>
                 <tr style="vertical-align: middle">
-                    <td><?=Html::img("@web/img/{$item->getProduct()->image}", ['alt' => $item->getProduct()->name, 'width' => 50])?></td>
-                    <td><a href="<?=Url::to('@web/products/' . $item->getProduct()->id)?>"><?= $item->getProduct()->name ?></a></td>
+                    <td><?=Html::img("@web/img/{$item->getProduct()->good->image}", ['alt' => $item->getProduct()->good->name, 'width' => 50])?></td>
+                    <td><a href="<?=Url::to('@web/products/' . $item->getProduct()->id)?>"><?= $item->getProduct()->good->name ?></a></td>
                     <td><?=$item->getPrice()?> руб.</td>
                     <td><?=$item->getQuantity()?></td>
-                    <?if(!$item->getProduct()->cartItem->ordered): ?>
+                    <?if(!$item->getOrdered()): ?>
                         <td><a class="btn btn-danger btn-sm" href="<?=Url::to(['cart/remove', 'id' => $item->getId()])?>">Удалить</a></td>
                         <? if($item_cat->status): ?>
                             <td><a href="<?=Url::to(['cart/order', 'id' => $item->getId(), 'qty' => $item->getQuantity()])?>" class="btn btn-success btn-sm">Заказать</a></td>
                         <? endif;?>
                     <? endif;?>
-                    <? if($item->getProduct()->cartItem->ordered && $item_cat->current_count < $item_cat->req_count ): ?>
+                    <? if($item->getOrdered() && $item_cat->current_count < $item_cat->req_count ): ?>
                         <td></td><td><div class="btn btn-info btn-sm disabled">Ожидание</div></td>
-                    <? elseif($item->getProduct()->cartItem->ordered && $item_cat->current_count >= $item_cat->req_count ): ?>
+                    <? elseif($item->getOrdered() && $item_cat->current_count >= $item_cat->req_count ): ?>
                         <td></td><td><a href="<?=Url::to()?>" class="btn btn-success btn-sm">Оплатить</a></td>
                     <? endif; ?>
 

@@ -1,7 +1,7 @@
 <?php
 namespace frontend\controllers;
 
-use frontend\models\CartItems;
+use frontend\models\CartItem;
 use frontend\models\Catalog;
 use frontend\models\Good;
 use cyneek\yii2\blade\BladeBehavior;
@@ -84,12 +84,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $query = Catalog::find()
-        ->orderBy('id');
+        $query = Catalog::find()->orderBy('id');
         $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 6, 'forcePageParam' => false, 'pageSizeParam' => false]);
-        $catalog = $query->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();
+        $catalog = $query->offset($pages->offset)->limit($pages->limit)->all();
         return $this->render('index', [
             'catalog' => $catalog,
             'pages' => $pages
@@ -98,14 +95,12 @@ class SiteController extends Controller
 
     public function actionTest()
     {
-        $item = CartItems::find()->where(['product_id' => 3])->one();
-        $s = $item->getProduct()->one();
-        var_export($s);
+
     }
 
     public function actionProducts($id = null)
     {
-        $product = Catalog::find()->where(['good_id' => $id])->one();
+        $product = Catalog::findOne($id);
         return $this->render('product', [
             'product' => $product,
         ]);

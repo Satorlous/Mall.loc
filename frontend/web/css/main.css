@@ -3,7 +3,7 @@
     font-size: 1.5em;
     margin: 10px 0;
     padding: 20px;
-    border: solid 1px gray;
+    border: solid 1px lightgray;
     border-radius: 3px;
 }
 
@@ -50,3 +50,75 @@
 .cart-table tbody td{
     vertical-align: middle;!important;
 }
+
+.product-div {
+    padding: 15px;
+}
+
+.inner-product-div {
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    padding: 10px;
+    height: 200px;
+    transition: all .08s ease-in-out;
+    text-align: center;
+}
+
+.inner-product-div-added {
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    padding: 10px;
+    height: 200px;
+    box-shadow: 9px 9px 9px -7px #c0c0c0;
+}
+
+.inner-product-div-added > img {
+    vertical-align: center;
+}
+
+
+.inner-product-div:hover {
+    box-shadow: 12px 12px 12px -7px #c0c0c0;
+    transform: scale(1.1);
+}
+
+.item-d-header {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.item-params {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+span[data-status = '0'] {
+    color: red;
+}
+span[data-status = '1'] {
+    color: green;
+}
+.outer{
+    display: table;
+}
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+.inner {
+    margin-left: auto;
+    margin-right: auto;
+}
+.img-div {
+    text-align: center;
+    margin: 0 0 0 8px;
+}
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+.no-transition {
+    box-shadow: none!important;
+    transform: none!important;
+    transition: none!important;
+}
+.float-right { float: right }

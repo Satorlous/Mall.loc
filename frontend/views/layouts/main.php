@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
@@ -44,13 +45,8 @@ AppAsset::register($this);
     {
         if (Yii::$app->user->identity->admin)
         {
-            $menuItems[] = '<li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Управление товарами<span class="caret"></span></a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="margin-top: 1px">
-                                    <li><a href="#">Добавить товар</a></li>
-                                    <li><a href="#">Список товаров</a></li>
-                                </ul>
-                            </li>';
+            $menuItems[] = ['label' => 'Список товаров', 'url' => Url::toRoute('admin/index')];
+            $menuItems[] = ['label' => 'Мои товары', 'url' => Url::toRoute('admin/added')];
         }
         $menuItems[] = ['label' => 'Корзина', 'url' => ['/cart/index']];
 

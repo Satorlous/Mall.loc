@@ -22,21 +22,29 @@ use yii\widgets\LinkPager;?>
                 </div>
                 <div class="col-md-8">
                     <div class="good-item__name"><?=$item->good->name?></div>
-                    <div class="good-item__description"><?=$item->good->description?></div>
-                    <div class="good-item__price"><?=$item->good->price?> руб.</div>
+                    <div class="good-item__description"><?=$item->description?></div>
+                    <div class="good-item__price"><?=$item->price?> руб.</div>
                     <div class="form-group" style="margin-top: 10px">
-                        <label for="count-<?=$item->good->id?>" class="col-2" style="font-weight: normal;">Количество:</label>
+                        <? if(!Yii::$app->user->isGuest && !Yii::$app->user->identity->admin && $item->status): ?>
+                        <label for="count-<?=$item->id?>" class="col-2" style="font-weight: normal;">Количество:</label>
                         <div class="col-10">
-                            <input type="number" id="count-<?=$item->good->id?>" class="form-control d-inline-block" min="1" max="100" value="<?= $item->good->cartItem->quantity == null ? 1 : $item->good->cartItem->quantity?>">
+                            <input type="number" id="count-<?=$item->id?>" class="form-control d-inline-block" min="1" max="100" value="<?= $item->cartItem->quantity == null ? 1 : $item->cartItem->quantity?>">
                         </div>
-                    <? if(!Yii::$app->user->isGuest && !Yii::$app->user->identity->admin):?>
-                        <?if($item->good->getCartItem()->count() == 0):?>
-                            <button class="good-item__btn-add btn btn-success" data-id="<?=$item->good->id?>" id="prod-<?=$item->good->id?>" onclick="AddItem(<?=$item->good->id?>)">Добавить в корзину</button>
-                        <? elseif($item->good->getCartItem()->count() > 0 && !$item->good->cartItem->ordered):?>
-                            <button class="good-item__btn-delete btn btn-danger" data-id="<?=$item->good->id?>" id="prod-<?=$item->good->id?>" onclick="RemoveItem(<?=$item->good->id?>)">Удалить из корзины</button>
+                        <? endif; ?>
+                    <? if(!Yii::$app->user->isGuest && !Yii::$app->user->identity->admin && $item->status):?>
+                        <?if(!isset($item->cartItem)) :?>
+                            <button class="good-item__btn-add btn btn-success" id="prod-<?=$item->id?>" onclick="AddItem(<?=$item->id?>)">Добавить в корзину</button>
+                        <? elseif(isset($item->cartItem) && !$item->cartItem->ordered):?>
+                            <button class="good-item__btn-delete btn btn-danger" id="prod-<?=$item->id?>" onclick="RemoveItem(<?=$item->id?>)">Удалить из корзины</button>
                         <? endif;?>
                     <? endif;?>
-                    <a href="<?= Url::toRoute(['site/products', 'id' => $item->good->id]) ?>"><button class="btn btn-info" style="margin-top: 30px;">Посмотреть</button></a>
+                    <a href="<?= Url::toRoute(['site/products', 'id' => $item->id]) ?>"><button class="btn btn-info" style="margin-top: 30px;">Посмотреть</button></a>
+                    <? if($item->cartItem->ordered): ?>
+                        <button class="btn btn-success disabled" style="margin-top: 30px;">Товар заказан</button>
+                        <? if ($item->current_count > $item->req_count) :?>
+                            <button class="btn btn-primary disabled" style="margin-top: 30px;">Ожидает оплаты</button>
+                        <? endif; ?>
+                    <? endif; ?>
 
                 </div>
             </li>

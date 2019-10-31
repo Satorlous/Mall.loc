@@ -12,7 +12,7 @@ use Yii;
  * @property int $quantity
  * @property bool $ordered
  */
-class CartItems extends \yii\db\ActiveRecord
+class CartItem extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -48,5 +48,10 @@ class CartItems extends \yii\db\ActiveRecord
             'quantity' => 'Quantity',
             'ordered' => 'Ordered',
         ];
+    }
+
+    public function getCatalogItem()
+    {
+        return $this->hasOne(Catalog::class, ['good_id' => 'product_id'])->where(['org_id' => 'user_id']);
     }
 }

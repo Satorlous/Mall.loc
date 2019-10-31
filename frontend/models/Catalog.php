@@ -3,7 +3,6 @@
 namespace frontend\models;
 
 use common\models\User;
-use frontend\models\Good;
 use Yii;
 
 /**
@@ -13,11 +12,15 @@ use Yii;
  * @property int $good_id
  * @property int $req_count
  * @property int $created_at
- * @property int $current_count
  * @property int $updated_at
  * @property bool $status
+ * @property int $current_count
+ * @property int $org_id
+ * @property int $price
+ * @property string $description
  *
  * @property Good $good
+ * @property User $org
  */
 class Catalog extends \yii\db\ActiveRecord
 {
@@ -35,13 +38,11 @@ class Catalog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['good_id', 'req_count', 'created_at', 'updated_at', 'current_count', 'org_id'], 'required'],
-            [['good_id', 'req_count', 'created_at', 'updated_at', 'org_id'], 'default', 'value' => null],
-            [['good_id', 'req_count', 'created_at', 'updated_at', 'current_count', 'org_id'], 'integer'],
-            [['status'], 'boolean'],
-            [['status'], 'default', 'value' => false],
-            [['current_count'], 'default', 'value' => 0],
-            [['good_id'], 'exist', 'skipOnError' => true, 'targetClass' => Good::class, 'targetAttribute' => ['good_id' => 'id']],
+            ['status', 'default', 'value' => false],
+            ['current_count', 'default', 'value' => 0],
+            [['created_at', 'updated_at'], 'default', 'value' => time()],
+            ['description', 'string', 'max' => 255],
+            ['price', 'integer'],
         ];
     }
 
@@ -57,7 +58,10 @@ class Catalog extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'status' => 'Status',
-            'current_count' => "Current Count"
+            'current_count' => 'Current Count',
+            'org_id' => 'Org ID',
+            'price' => 'Price',
+            'description' => 'Description',
         ];
     }
 
@@ -69,9 +73,19 @@ class Catalog extends \yii\db\ActiveRecord
         return $this->hasOne(Good::class, ['id' => 'good_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getOrg()
     {
         return $this->hasOne(User::class, ['id' => 'org_id']);
+    }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCartItem()
+    {
+        return $this->hasOne(CartItem::class, ['product_id' => 'id'])->where(['user_id' => Yii::$app->user->id]);
     }
 }

@@ -57,7 +57,7 @@ return [
             'params' => [
                 'key' => 'cart',
                 'expire' => 4*604800, //4 недели
-                'productClass' => 'frontend\models\Good',
+                'productClass' => 'frontend\models\Catalog',
                 'productFieldId' => 'id',
                 'productFieldPrice' => 'price',
             ],
