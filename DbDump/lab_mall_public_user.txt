@@ -1,0 +1,7 @@
+id;username;auth_key;password_hash;password_reset_token;email;status;created_at;updated_at;verification_token;fullname;image;admin
+6;Zaar;9qCJX49FEKY6BPZkgi1zOBsmd2Vz2Ff2;$2y$13$zFPn7.sOORuWLwWUO.joOu3B3RnaUFpBFakOdrLSjuziq8M7FZ3JC;;n.leppik@gmail.com;10;1571414436;1571414436;sfkEAeGH5-7aij26zoVLDwhGGQndJk_M_1571414436;Леппик Никита Олегович;Расписание.png;false
+7;admin;wK5yLn5XU1gdoXB65JXeKXPuWp59vXs2;$2y$13$ZInMRjxzC866RT3m3D7jduLHPsxTXFW3jBe9Ki5e3H3SzPVPTKNzy;;admin@yii.loc;10;1571845251;1571845251;6elTG_b1tEArnpIJYV0-M9tTy1uT6ofw_1571845251;Админ;avatara.png;true
+8;Admin2;2KaU5d4KfKi_ZllVe9lb46OqaDl3N26x;$2y$13$rGSeRYJS/IPo59n6MoKsf.cyeSn.kLWUMWh53OVfEOrpdvKQO9/Q2;;admin2@yii.loc;10;1571845391;1571845391;ZENM4_VqGVdFL-7BEFp0NKdIHtZi0i94_1571845391;Админ;avatara.png;true
+9;user1;Ju4jFhxo73ae5FTZNqs7l46KEJ7cWgDw;$2y$13$SuRP58c9TahuwQv4elOwhe5AAYoEHC8L42wiX.In4Nm2ZD5UAISN.;;user1@mail.ru;10;1572279901;1572279901;lO9LlHHgIH91duHNssBjlGFIkmnox0BI_1572279901;Юзер;Расписание.png;false
+11;user2;Ju4jFhxo73ae5FTZNqs7l46KEJ7cWgDw;$2y$13$SuRP58c9TahuwQv4elOwhe5AAYoEHC8L42wiX.In4Nm2ZD5UAISN.;;user2@mail.ru;10;1572279901;1572279901;lO9LlHHgIH91duHNssBjlGFIkmnox0BI_1572279901;Юзер;Расписание.png;false
+12;user3;2yv8aiCmLbRwK5QseOT6orNJvZ1LdiuJ;$2y$13$MVIPIRUwgmMdNYiaaSp8HeQLMG3wBNTPXxGCWK90KvbYUvqokT1uG;;user3@mail.ru;10;1572379511;1572379511;BsmqGlPZRyzngaab4NA-c6YWEToPCvE8_1572379511;Юзер;Расписание.png;false
