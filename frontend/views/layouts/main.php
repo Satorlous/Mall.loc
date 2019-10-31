@@ -48,7 +48,10 @@ AppAsset::register($this);
             $menuItems[] = ['label' => 'Список товаров', 'url' => Url::toRoute('admin/index')];
             $menuItems[] = ['label' => 'Мои товары', 'url' => Url::toRoute('admin/added')];
         }
-        $menuItems[] = ['label' => 'Корзина', 'url' => ['/cart/index']];
+        if (!Yii::$app->user->identity->admin)
+        {
+            $menuItems[] = ['label' => 'Корзина', 'url' => ['/cart/index']];
+        }
 
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')

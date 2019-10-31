@@ -16,14 +16,14 @@ use yii\helpers\Url;
                         <div class="item-params"><span class="item-d-header">Название: </span><span><?=$item->good->name?></span></div>
                         <div class="item-params"><span class="item-d-header">Описание: </span><span><?=$item->description?></span></div>
                         <div class="item-params"><span class="item-d-header">Цена: </span><span><?=$item->price?></span></div>
-                        <div class="item-params"><span class="item-d-header">Статус: </span><span data-status="<?=$item->status ? 1 : 0?>"><?=$item->status ? "ОТКРЫТО" : "ЗАКРЫТО"?></span></div>
+                        <div class="item-params"><span class="item-d-header">Статус: </span><span id="status-span-<?=$item->id?>" data-status="<?=$item->status ? 1 : 0?>"><?=$item->status ? "ОТКРЫТО" : "ЗАКРЫТО"?></span></div>
                         <div class="item-params"><span class="item-d-header">Закупочное кол-во: </span><span><?=$item->req_count?></span></div>
                         <div class="item-params">
                             <span class="item-d-header">Заказано (шт.): </span><span><?=$item->current_count?></span>
                             <? if (!$item->status): ?>
-                                <div class="float-right"><button class="oc-button btn btn-success" data-id="<?=$item->id?>" data-status="<?=$item->status ? 1 : 0?>">Открыть</button></div>
+                                <div class="float-right"><button id="oc-button-<?=$item->id?>" class="oc-button btn btn-success" data-id="<?=$item->id?>" data-status="<?=$item->status ? 1 : 0?>">Открыть</button></div>
                             <? else: ?>
-                                <div class="float-right"><button class="oc-button btn btn-danger" data-id="<?=$item->id?>" data-status="<?=$item->status ? 1 : 0?>">Закрыть</button></div>
+                                <div class="float-right"><button id="oc-button-<?=$item->id?>" class="oc-button btn btn-danger" data-id="<?=$item->id?>" data-status="<?=$item->status ? 1 : 0?>">Закрыть</button></div>
                             <? endif; ?>
                         </div>
                     </div>

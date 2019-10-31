@@ -44,13 +44,23 @@ function ChangeStatus()
     let status = $(this).data('status');
     let id = $(this).data('id');
     $.ajax({
-        url: '/admin/changeStatus',
+        url: '/admin/change-status',
         type: 'POST',
         data: {id: id},
         success: function () {
-            $('#prod-' + id)
-                .html('Добавить в корзину')
-                .attr('class', 'good-item__btn-add btn btn-success');
+            let newButtonClass = status === 0 ? "oc-button btn btn-danger" : "oc-button btn btn-success";
+            let newButtonHtml = status === 0 ? "Закрыть" : "Открыть";
+            let newSpanHtml = status === 0 ? "ОТКРЫТО" : "ЗАКРЫТО";
+            status = status === 0 ? 1 : 0;
+            $("#oc-button-"+id)
+                .data('status', status)
+                .attr('data-status', status)
+                .attr('class', newButtonClass)
+                .html(newButtonHtml);
+            $('#status-span-'+id)
+                .html(newSpanHtml)
+                .data('status', status)
+                .attr('data-status', status);
         },
         error: function () {
             alert('Error!');

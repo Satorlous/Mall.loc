@@ -71,4 +71,14 @@ class AdminController extends \yii\web\Controller
         $items = Catalog::find()->where(['org_id' => Yii::$app->user->id])->all();
         return $this->render('added', compact('items'));
     }
+
+    public function actionChangeStatus()
+    {
+        $id = Yii::$app->request->post('id');
+        $item = Catalog::findOne($id);
+        $item->status = !$item->status;
+        if ($item->save())
+            return 'Добавлено';
+        return 'Ошибка';
+    }
 }
